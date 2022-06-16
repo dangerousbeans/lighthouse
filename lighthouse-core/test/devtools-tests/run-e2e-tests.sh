@@ -18,8 +18,5 @@ latest_content_shell=$(node "$LH_ROOT/third-party/download-content-shell/downloa
 
 cd "$DEVTOOLS_PATH"
 
-git cl patch 3682120 || true
-
-# TODO: run tests from our codebase
 TEST_PATTERN="${1:-lighthouse/*}"
 npm run e2etest -- --chrome-binary-path="$latest_content_shell" "$TEST_PATTERN"

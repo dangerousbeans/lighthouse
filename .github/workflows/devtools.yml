@@ -102,7 +102,6 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |
-          ${{ env.DEVTOOLS_PATH }}/test/e2e
           ${{ env.DEVTOOLS_PATH }}/out/Default/gen/front_end
           ${{ env.DEVTOOLS_PATH }}/test/webtests
           ${{ github.workspace }}/.gclient
@@ -137,7 +136,6 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |
-          ${{ env.DEVTOOLS_PATH }}/test/e2e
           ${{ env.DEVTOOLS_PATH }}/out/Default/gen/front_end
           ${{ env.DEVTOOLS_PATH }}/test/webtests
           ${{ github.workspace }}/.gclient
@@ -187,7 +185,6 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |
-          ${{ env.DEVTOOLS_PATH }}/test/e2e
           ${{ env.DEVTOOLS_PATH }}/out/Default/gen/front_end
           ${{ env.DEVTOOLS_PATH }}/test/webtests
           ${{ github.workspace }}/.gclient

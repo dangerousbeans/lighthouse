@@ -468,7 +468,7 @@ describe('report assert', () => {
   };
 
   for (const [testName, expected] of Object.entries(testCases)) {
-    it(`${testName}`, () => {
+    it(testName, () => {
       const report = getReport(expected);
       expect(clean(report.log)).toMatchSnapshot();
       if (testName.startsWith('OK')) expect(report.failed).toBe(0);

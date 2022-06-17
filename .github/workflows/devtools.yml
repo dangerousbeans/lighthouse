@@ -107,8 +107,12 @@ jobs:
           ${{ github.workspace }}/.gclient
         key: devtools-build-artifacts-${{ github.run_id }}
 
-    # - name: Roll Lighthouse + build DevTools
-    #   run: bash $GITHUB_WORKSPACE/lighthouse/lighthouse-core/test/chromium-web-tests/roll-devtools.sh
+    # Gotta repeat some of this from the previous step, but this should only require re-building targets
+    # that use something we roll into Lighthouse.
+    # Also, there is a chance that the time delta between the build job and this one results in a different
+    # DevTools repo commit being checked out here, so re-building is also needed for that edge case.
+    - name: Roll Lighthouse + build DevTools
+      run: bash $GITHUB_WORKSPACE/lighthouse/lighthouse-core/test/chromium-web-tests/roll-devtools.sh
 
     - name: Download Content Shell
       run: bash $GITHUB_WORKSPACE/lighthouse/lighthouse-core/test/chromium-web-tests/download-content-shell.sh

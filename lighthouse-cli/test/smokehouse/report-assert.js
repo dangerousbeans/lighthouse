@@ -28,7 +28,7 @@ import {chromiumVersionCheck} from './version-check.js';
  * @property {any} actual
  * @property {any} expected
  * @property {boolean} equal
- * @property {Difference|null} [diff]
+ * @property {Difference[]|null} diff
  */
 
 const NUMBER_REGEXP = /(?:\d|\.)+/.source;
@@ -86,7 +86,7 @@ function matchesExpectation(actual, expected) {
  * @param {string} path
  * @param {*} actual
  * @param {*} expected
- * @return {(Difference|null)}
+ * @return {Difference[]|null}
  */
 function findDifference(path, actual, expected) {
   if (matchesExpectation(actual, expected)) {
@@ -96,13 +96,14 @@ function findDifference(path, actual, expected) {
   // If they aren't both an object we can't recurse further, so this is the difference.
   if (actual === null || expected === null || typeof actual !== 'object' ||
       typeof expected !== 'object' || expected instanceof RegExp) {
-    return {
+    return [{
       path,
       actual,
       expected,
-    };
+    }];
   }
 
+  const diff = [];
   let inclExclCopy;
 
   // We only care that all expected's own properties are on actual (and not the other way around).
@@ -118,11 +119,11 @@ function findDifference(path, actual, expected) {
 
       if (!Array.isArray(expectedValue)) throw new Error('Array subset must be array');
       if (!Array.isArray(actual)) {
-        return {
+        diff.push({
           path,
           actual: 'Actual value is not an array',
           expected,
-        };
+        });
       }
 
       for (const expectedEntry of expectedValue) {
@@ -134,11 +135,11 @@ function findDifference(path, actual, expected) {
           continue;
         }
 
-        return {
+        diff.push({
           path,
           actual: 'Item not found in array',
           expected: expectedEntry,
-        };
+        });
       }
 
       continue;
@@ -157,14 +158,14 @@ function findDifference(path, actual, expected) {
         const matchingIndex = arrToCheckAgainst.findIndex(actualEntry =>
             !findDifference(keyPath, actualEntry, expectedExclusion));
         if (matchingIndex !== -1) {
-          return {
+          return [{
             path,
             actual: arrToCheckAgainst[matchingIndex],
             expected: {
               message: 'Expected to not find matching entry via _excludes',
               expectedExclusion,
             },
-          };
+          }];
         }
       }
 
@@ -172,12 +173,8 @@ function findDifference(path, actual, expected) {
     }
 
     const actualValue = actual[key];
-    const subDifference = findDifference(keyPath, actualValue, expectedValue);
-
-    // Break on first difference found.
-    if (subDifference) {
-      return subDifference;
-    }
+    const subDifferences = findDifference(keyPath, actualValue, expectedValue);
+    if (subDifferences) diff.push(...subDifferences);
   }
 
   // If the expected value is an array, assert the length as well.
@@ -185,14 +182,15 @@ function findDifference(path, actual, expected) {
   // but requires using an object literal (ex: {0: x, 1: y, 2: z} matches [x, y, z, q, w, e] and
   // {0: x, 1: y, 2: z, length: 5} does not match [x, y, z].
   if (Array.isArray(expected) && actual.length !== expected.length) {
-    return {
+    diff.push({
       path: `${path}.length`,
       actual,
       expected,
-    };
+    });
   }
 
-  return null;
+  if (diff.length === 0) return null;
+  return diff;
 }
 
 /**
@@ -427,19 +425,20 @@ function reportAssertion(localConsole, assertion) {
           log.greenify(assertion.actual));
     }
   } else {
-    if (assertion.diff) {
-      const diff = assertion.diff;
-      const fullActual = String(JSON.stringify(assertion.actual, null, 2))
-          .replace(/\n/g, '\n      ');
-      const msg = `
+    if (assertion.diff?.length) {
+      for (const diff of assertion.diff) {
+        const msg = `
   ${log.redify(log.cross)} difference at ${log.bold}${diff.path}${log.reset}
               expected: ${JSON.stringify(diff.expected)}
-                 found: ${JSON.stringify(diff.actual)}
+                 found: ${JSON.stringify(diff.actual)}\n`;
+        localConsole.log(msg);
+      }
 
-          found result:
+      const fullActual =
+        JSON.stringify(assertion.actual, null, 2).replace(/\n/g, '\n      ');
+      localConsole.log(`          found result:
       ${log.redify(fullActual)}
-`;
-      localConsole.log(msg);
+  `);
     } else {
       localConsole.log(`  ${log.redify(log.cross)} ${assertion.name}:
               expected: ${JSON.stringify(assertion.expected)}

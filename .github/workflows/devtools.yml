@@ -73,7 +73,6 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |
-          ${{ env.DEVTOOLS_PATH }}/test/e2e
           ${{ env.DEVTOOLS_PATH }}/out/Default/gen/front_end
           ${{ env.DEVTOOLS_PATH }}/test/webtests
           ${{ github.workspace }}/.gclient
@@ -94,6 +93,10 @@ jobs:
       with:
         node-version: 14.x
 
+    # Download DevTools repo first, then we will tack on the already-built out/ folder.
+    - name: Download DevTools Frontend
+      run: bash $GITHUB_WORKSPACE/lighthouse/lighthouse-core/test/chromium-web-tests/download-devtools.sh
+
     - name: Load build artifacts
       id: devtools-build-artifacts
       uses: actions/cache@v3
@@ -104,12 +107,9 @@ jobs:
           ${{ env.DEVTOOLS_PATH }}/test/webtests
           ${{ github.workspace }}/.gclient
         key: devtools-build-artifacts-${{ github.run_id }}
-    
-    - name: Download DevTools Frontend
-      run: bash $GITHUB_WORKSPACE/lighthouse/lighthouse-core/test/chromium-web-tests/download-devtools.sh
 
-    - name: Roll Lighthouse + build DevTools
-      run: bash $GITHUB_WORKSPACE/lighthouse/lighthouse-core/test/chromium-web-tests/roll-devtools.sh
+    # - name: Roll Lighthouse + build DevTools
+    #   run: bash $GITHUB_WORKSPACE/lighthouse/lighthouse-core/test/chromium-web-tests/roll-devtools.sh
 
     - name: Download Content Shell
       run: bash $GITHUB_WORKSPACE/lighthouse/lighthouse-core/test/chromium-web-tests/download-content-shell.sh

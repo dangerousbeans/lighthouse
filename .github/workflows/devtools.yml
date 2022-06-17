@@ -94,6 +94,8 @@ jobs:
         node-version: 14.x
 
     # Download DevTools repo first, then we will tack on the already-built out/ folder.
+    - name: Set $PATH
+      run: echo "$DEPOT_TOOLS_PATH" >> $GITHUB_PATH
     - name: Download depot tools
       run: bash $GITHUB_WORKSPACE/lighthouse/lighthouse-core/test/chromium-web-tests/download-depot-tools.sh
     - name: Download DevTools Frontend

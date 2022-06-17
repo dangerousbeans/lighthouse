@@ -75,6 +75,7 @@ jobs:
         path: |
           ${{ env.DEVTOOLS_PATH }}/out/Default/gen/front_end
           ${{ env.DEVTOOLS_PATH }}/test/webtests
+          ${{ env.DEVTOOLS_PATH }}/third_party/chrome
           ${{ github.workspace }}/.gclient
         key: devtools-build-artifacts-${{ github.run_id }}
 
@@ -111,6 +112,7 @@ jobs:
         path: |
           ${{ env.DEVTOOLS_PATH }}/out/Default/gen/front_end
           ${{ env.DEVTOOLS_PATH }}/test/webtests
+          ${{ env.DEVTOOLS_PATH }}/third_party/chrome
           ${{ github.workspace }}/.gclient
         key: devtools-build-artifacts-${{ github.run_id }}
 
@@ -120,9 +122,6 @@ jobs:
     # DevTools repo commit being checked out here, so re-building is also needed for that edge case.
     - name: Roll Lighthouse + build DevTools
       run: bash $GITHUB_WORKSPACE/lighthouse/lighthouse-core/test/chromium-web-tests/roll-devtools.sh
-
-    - name: Download Content Shell
-      run: bash $GITHUB_WORKSPACE/lighthouse/lighthouse-core/test/chromium-web-tests/download-content-shell.sh
 
     - name: Run e2e tests
       run: bash $GITHUB_WORKSPACE/lighthouse/lighthouse-core/test/devtools-tests/run-e2e-tests.sh
@@ -149,6 +148,7 @@ jobs:
         path: |
           ${{ env.DEVTOOLS_PATH }}/out/Default/gen/front_end
           ${{ env.DEVTOOLS_PATH }}/test/webtests
+          ${{ env.DEVTOOLS_PATH }}/third_party/chrome
           ${{ github.workspace }}/.gclient
         key: devtools-build-artifacts-${{ github.run_id }}
 
@@ -198,6 +198,7 @@ jobs:
         path: |
           ${{ env.DEVTOOLS_PATH }}/out/Default/gen/front_end
           ${{ env.DEVTOOLS_PATH }}/test/webtests
+          ${{ env.DEVTOOLS_PATH }}/third_party/chrome
           ${{ github.workspace }}/.gclient
         key: devtools-build-artifacts-${{ github.run_id }}
 

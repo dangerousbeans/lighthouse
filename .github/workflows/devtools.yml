@@ -104,6 +104,12 @@ jobs:
           ${{ env.DEVTOOLS_PATH }}/test/webtests
           ${{ github.workspace }}/.gclient
         key: devtools-build-artifacts-${{ github.run_id }}
+    
+    - name: Download DevTools Frontend
+      run: bash $GITHUB_WORKSPACE/lighthouse/lighthouse-core/test/chromium-web-tests/download-devtools.sh
+
+    - name: Roll Lighthouse + build DevTools
+      run: bash $GITHUB_WORKSPACE/lighthouse/lighthouse-core/test/chromium-web-tests/roll-devtools.sh
 
     - name: Download Content Shell
       run: bash $GITHUB_WORKSPACE/lighthouse/lighthouse-core/test/chromium-web-tests/download-content-shell.sh

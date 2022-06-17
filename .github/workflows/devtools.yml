@@ -92,6 +92,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 14.x
+    
+    - run: yarn --frozen-lockfile --network-timeout 1000000
+      working-directory: ${{ github.workspace }}/lighthouse
 
     # Download DevTools repo first, then we will tack on the already-built out/ folder.
     - name: Set $PATH

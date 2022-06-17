@@ -159,7 +159,7 @@ function clean(text) {
   return text
     .replace(/\x1B.*?m/g, '')
     .replace(/\x1b.*?m/g, '')
-    .replace(/✘/, 'X')
+    .replace(/[✘×]/g, 'X')
     .trim();
 }
 

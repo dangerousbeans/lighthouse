@@ -15,6 +15,10 @@ roll_devtools() {
   # Roll devtools. Besides giving DevTools the latest lighthouse source files,
   # this also copies over the webtests.
   cd "$LH_ROOT"
+  ls "$DEVTOOLS_PATH"
+  ls "$DEVTOOLS_PATH"/out
+  ls "$DEVTOOLS_PATH"/Default
+  ls -al "$DEVTOOLS_PATH"/Default
   yarn devtools "$DEVTOOLS_PATH"
   cd -
 }

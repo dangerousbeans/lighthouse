@@ -17,8 +17,8 @@ roll_devtools() {
   cd "$LH_ROOT"
   ls "$DEVTOOLS_PATH"
   ls "$DEVTOOLS_PATH"/out
-  ls "$DEVTOOLS_PATH"/Default
-  ls -al "$DEVTOOLS_PATH"/Default
+  ls "$DEVTOOLS_PATH"/out/Default
+  ls -al "$DEVTOOLS_PATH"/out/Default
   yarn devtools "$DEVTOOLS_PATH"
   cd -
 }

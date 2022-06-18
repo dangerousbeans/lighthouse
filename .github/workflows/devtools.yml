@@ -73,7 +73,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |
-          ${{ env.DEVTOOLS_PATH }}/out/Default/gen/front_end
+          ${{ env.DEVTOOLS_PATH }}/out/Default
           ${{ env.DEVTOOLS_PATH }}/test/webtests
           ${{ env.DEVTOOLS_PATH }}/third_party/chrome
           ${{ github.workspace }}/.gclient
@@ -110,7 +110,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |
-          ${{ env.DEVTOOLS_PATH }}/out/Default/gen/front_end
+          ${{ env.DEVTOOLS_PATH }}/out/Default
           ${{ env.DEVTOOLS_PATH }}/test/webtests
           ${{ env.DEVTOOLS_PATH }}/third_party/chrome
           ${{ github.workspace }}/.gclient
@@ -146,7 +146,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |
-          ${{ env.DEVTOOLS_PATH }}/out/Default/gen/front_end
+          ${{ env.DEVTOOLS_PATH }}/out/Default
           ${{ env.DEVTOOLS_PATH }}/test/webtests
           ${{ env.DEVTOOLS_PATH }}/third_party/chrome
           ${{ github.workspace }}/.gclient
@@ -196,7 +196,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |
-          ${{ env.DEVTOOLS_PATH }}/out/Default/gen/front_end
+          ${{ env.DEVTOOLS_PATH }}/out/Default
           ${{ env.DEVTOOLS_PATH }}/test/webtests
           ${{ env.DEVTOOLS_PATH }}/third_party/chrome
           ${{ github.workspace }}/.gclient
